@@ -1,0 +1,22 @@
+Si read n'a pas lu 0 caractere 
+	chaine creee avec read	
+substr jusqua \n
+garder le positionnement avec variable static
+retourner substr de la chaine lue 
+
+
+
+
+check if Buffer is non empty
+	empty->read line
+	non_empty-> copy buffer first
+	
+for char in buffer
+	ligne_de_retour += char
+	if (end of file or line)
+		move buffer
+		retourne line
+	
+if buffer all read
+	read buffer
+
