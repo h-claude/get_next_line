@@ -3,39 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/04 13:14:54 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/04 15:21:03 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static int get_backslash(char *str)
-{
-	int i;
-	
-	i = 0;
-	while (str[i] != '\0' || str[i] != '\n')
-		i++;
-	return (i);
-}
-
 static char *get_line(char *oldbuffer, char *buffer)
 {
-	char	*dst;
-	int		len;
-
-	len = ft_strlen(oldbuffer) + get_backslash(newbuffer);
-	dst = ft_calloc(len + 1, sizeof(char));
-	if (!dst)
-		return (NULL);
-	ft_strlcat(dst, oldbuffer, ft_strlen(oldbuffer));
-	ft_strlcat(dst, newbuffer, get_backslash(newbuffer));
-	free(oldbuffer);
-	return (dst);
+	
 }
 
 char	*ft_strdup(const char *s)
@@ -59,7 +39,7 @@ char	*ft_strdup(const char *s)
 char *get_next_line(int fd)
 {
 	static char buffer[BUFFER_SIZE];
-	static char *old_buffer;
+	char *old_buffer;
 	char *return_list;
 
 	if (fd == -1)
@@ -67,8 +47,9 @@ char *get_next_line(int fd)
 	if (!buffer)
 		read(fd, buffer, BUFFER_SIZE);
 	else
+	{
 		old_buffer = ft_strdup(buffer);
+		read(fd, buffer, BUFFER_SIZE);
+	}
 	return_list = get_line(old_buffer, buffer);
-	
-	
 }
