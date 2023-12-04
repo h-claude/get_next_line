@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:01 by hclaude           #+#    #+#             */
-/*   Updated: 2023/11/29 11:52:41 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/04 17:26:30 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,30 @@ void	*ft_calloc(size_t count, size_t size)
 	return (tab);
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	size_t	i;
-	size_t	y;
-	size_t	len;
 
-	if (ft_memchr(dst, '\0', dstsize) == NULL)
-		return (ft_strlen(src) + dstsize);
-	i = ft_strlen(dst);
-	if (dstsize == 0 || dstsize <= i)
-		return (ft_strlen(src) + dstsize);
-	len = ft_strlen(dst) + ft_strlen(src);
-	y = 0;
-	while (i < (dstsize - 1) && src[y])
+	i = 0;
+	if (dst == NULL && src == NULL)
+		return (dst);
+	if (dst < src)
 	{
-		dst[i] = src[y];
-		i++;
-		y++;
+		while (i < len)
+		{
+			*(char *)(dst + i) = *(char *)(src + i);
+			i++;
+		}
 	}
-	dst[i] = '\0';
-	return (len);
+	else if (dst >= src)
+	{
+		while (len != 0)
+		{
+			*(char *)(dst + (len - 1)) = *(char *)(src + (len - 1));
+			len--;
+		}
+	}
+	return (dst);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)

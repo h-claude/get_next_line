@@ -23,28 +23,41 @@ if buffer all read
 if 
 
 
+
+
 Ceci est un fichier
 retour a la ligne
 
-buffer = "Ceci est un fichier \n retour a la ligne\0"
+buffer = "Ceci est un fichier \n retour \n a la ligne\0"
 
-buffer est vide
--> read(buffer)
-retour_ligne = buffer premier ligne
-				-> buffer = "Ceci est un fichier \n retour a la ligne\0"
-				-> tant que buffer[i] n'est pas egale a '\n' ou '\0'; i++
-				-> i = 20;
-				-> retourner substr(buffer, 0, i)
+Ceci est un fichier \n
+buffer = " retour \n a la ligne\0\0\0\0\0\0\0"
+ retour \n
+ buffer = " a la ligne\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+  a la ligne\0
 
-//si la chaine n'est pas vide on met le reste dans old_buffer
-old_buffer = getfutureline(buffer)
-			-> buffer = "Ceci est un fichier \n retour a la ligne\0"
-			-> tant que buffer[i] n'est pas egale a '\n' ou '\0'; i++
-			-> i = 20
-			-> retourner substr(buffer, i, strlen(buffer) - i)
-old_buffer = " retour a la ligne\0"
 
-retourner retour_ligne
+memmove strjoin bzero
 
--------
-buffer n'est pas vide
+liste \n liste
+ ligne retour = "liste \n"
+
+liste \n liste \n test
+
+"liste1" "test"
+
+temp_liste = strjoin("liste1", "test")
+
+liste retour = strreturn()
+
+SITUATIONS:
+	...
+
+	EOF:
+		...
+
+	NLine:
+		...
+
+objectif = vider le buffer
+tant que ma ligne est pas finie je read 
