@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/11/29 12:49:50 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/04 13:14:54 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int get_backslash(char *str)
 	return (i);
 }
 
-static char *get_line(char *newbuffer, char *oldbuffer)
+static char *get_line(char *oldbuffer, char *buffer)
 {
 	char	*dst;
 	int		len;
@@ -38,50 +38,37 @@ static char *get_line(char *newbuffer, char *oldbuffer)
 	return (dst);
 }
 
-static char *get_futurline(char *buffer)
+char	*ft_strdup(const char *s)
 {
-	int	start;
-	int i;
-	char *newbuffer;
-	
-	start = get_backslash(buffer) + 1;
-	i = start;
-	while (buffer[i] != '\0' || buffer[i] != '\n')
-		i++;
-	newbuffer = ft_calloc(i + 1, sizeof(char));
-	if (!newbuffer)
-		return (NULL);
+	size_t	i;
+	char	*str;
+
+	str = malloc(sizeof(char) * ft_strlen(s) + 1);
 	i = 0;
-	while (buffer[start] != '\0' || buffer[start] != '\n')
+	if (str == NULL)
+		return (NULL);
+	while (s[i] != '\0')
 	{
-		newbuffer[i] = buffer[start];
+		str[i] = s[i];
 		i++;
-		start++;
 	}
-	return(newbuffer);
+	str[i] = '\0';
+	return (str);
 }
 
 char *get_next_line(int fd)
 {
-	char buffer[BUFFER_SIZE];
+	static char buffer[BUFFER_SIZE];
 	static char *old_buffer;
-	char *tempbuffer;
+	char *return_list;
 
-	if (fd == -1 || read(fd, buffer, BUFFER_SIZE) <= 0)
-	{
-		if (old_buffer == NULL)
-			return (NULL);
-		return (old_buffer);
-	}
-	if (buffer && old_buffer)
-	{
-		tempbuffer = old_buffer;
-		
-		get_line(buffer, old_buffer);
-	}
+	if (fd == -1)
+		return (NULL);
+	if (!buffer)
+		read(fd, buffer, BUFFER_SIZE);
 	else
-	{
-		old_buffer = get_futurline(buffer);
-		return (ft_substr(buffer, 0, get_backslash(buffer)));
-	}
+		old_buffer = ft_strdup(buffer);
+	return_list = get_line(old_buffer, buffer);
+	
+	
 }

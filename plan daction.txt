@@ -1,0 +1,50 @@
+Si read n'a pas lu 0 caractere 
+	chaine creee avec read	
+substr jusqua \n
+garder le positionnement avec variable static
+retourner substr de la chaine lue 
+
+
+
+
+check if Buffer is non empty
+	empty->read line
+	non_empty-> copy buffer first
+	
+for char in buffer
+	ligne_de_retour += char
+	if (end of file or line)
+		move buffer
+		retourne line
+	
+if buffer all read
+	read buffer
+
+if 
+
+
+Ceci est un fichier
+retour a la ligne
+
+buffer = "Ceci est un fichier \n retour a la ligne\0"
+
+buffer est vide
+-> read(buffer)
+retour_ligne = buffer premier ligne
+				-> buffer = "Ceci est un fichier \n retour a la ligne\0"
+				-> tant que buffer[i] n'est pas egale a '\n' ou '\0'; i++
+				-> i = 20;
+				-> retourner substr(buffer, 0, i)
+
+//si la chaine n'est pas vide on met le reste dans old_buffer
+old_buffer = getfutureline(buffer)
+			-> buffer = "Ceci est un fichier \n retour a la ligne\0"
+			-> tant que buffer[i] n'est pas egale a '\n' ou '\0'; i++
+			-> i = 20
+			-> retourner substr(buffer, i, strlen(buffer) - i)
+old_buffer = " retour a la ligne\0"
+
+retourner retour_ligne
+
+-------
+buffer n'est pas vide
