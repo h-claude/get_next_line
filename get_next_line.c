@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/05 17:20:35 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:57:38 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ char *put_char_in_buffer(char *dst, char c)
 	int		i;
 
 	i = 0;
-	if (!dst)
+	if (dst == NULL)
 		return_string = ft_calloc(2, sizeof(char));
 	else
 	{
-		return_string = ft_calloc(ft_strlen(dst) + 2, sizeof(char));
+		return_string = ft_calloc(ft_strlen(dst)+2, sizeof(char));
 		while (dst[i] != '\0')
 		{
 			return_string[i] = dst[i];
