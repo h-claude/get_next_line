@@ -9,8 +9,8 @@ int main()
 	printf("%s\n", get_next_line(fd));
 	printf("---Nouvelle boucle---\n\n");
 	printf("%s\n", get_next_line(fd));
-	printf("---Nouvelle boucle---\n\n");
-	printf("%s\n", get_next_line(fd));
-	printf("---Nouvelle boucle---\n\n");
+	// printf("---Nouvelle boucle---\n\n");
+	// printf("%s\n", get_next_line(fd));
+	// printf("---Nouvelle boucle---\n\n");
 	close(fd);
 }

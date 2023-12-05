@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/04 19:23:46 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/05 15:14:30 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,17 @@ char *put_char_in_buffer(char *dst, char c)
 	char 	*temp;
 	int		i;
 
-	temp = ft_calloc(ft_strlen(dst) + 2, sizeof(char));
-	while (dst[i] != '\0')
+	i = 0;
+	if (!dst)
+		temp = ft_calloc(2, sizeof(char));
+	else
 	{
-		temp[i] = dst[i];
-		i++;
+		temp = ft_calloc(ft_strlen(dst) + 1, sizeof(char));
+		while (dst[i] != '\0')
+		{
+			temp[i] = dst[i];
+			i++;
+		}
 	}
 	temp[i] = c;
 	return (temp);
@@ -48,9 +54,16 @@ void ft_remove(char *lst, int start)
 	int		i;
 
 	i = 0;
-	temp_lst = ft_substr(lst, start, ft_strlen(lst + start));
-	ft_bzero(lst, ft_strlen(lst));
-	ft_memmove(lst, temp_lst, ft_strlen(temp_lst));
+	if (lst[start] == '\0')
+		ft_bzero(lst, ft_strlen(lst));
+	else
+	{
+		temp_lst = ft_substr(lst, start, ft_strlen(lst + start));
+		printf("Liste temporaire = %s\n", temp_lst);
+		ft_bzero(lst, ft_strlen(lst));
+		ft_memmove(lst, temp_lst, ft_strlen(temp_lst));
+		printf("Liste finale = %s\n", lst);
+	}
 }
 
 char *get_next_line(int fd)
@@ -65,20 +78,25 @@ char *get_next_line(int fd)
 	while (1)
 	{
 		if (buffer[0] == '\0')
-			if (read(fd, buffer, BUFFER_SIZE) == 0);
-				if (!return_buffer)
-					return (NULL); // Pour voir si il y a plus rien a lire
-		if (return_buffer[i] == '\n' || return_buffer[i] == '\0') // On teste si on est en fin de ligne ou de fichier
 		{
-			if (return_buffer[i] == '\0') // Si fin de fichier
-			{
-				ft_bzero(buffer, ft_strlen(buffer));	
-				return (return_buffer);
-			}
-			ft_remove(buffer, i); // Si fin de ligne
+			read(fd, buffer, BUFFER_SIZE);
+			if (buffer[0] == '\0')
+				return (NULL);
+			printf("i = %i ; buffer = ''%s''\n", i, buffer);
+		}
+		if (buffer[i] != '\n' && buffer[i] != '\0')
+			return_buffer = put_char_in_buffer(return_buffer, buffer[i]);
+		else
+		{
+			return_buffer = put_char_in_buffer(return_buffer, buffer[i]);
+			ft_remove(buffer, i+1);
+			printf("Valeur de buffer = %s\nValeur de retour = %s\n", buffer, return_buffer);
 			return (return_buffer);
 		}
-		if 
-		
+		printf("-Boucle-\n");
+		printf("Buffer = %s\n", buffer);
+		printf("return_buffer = %s\n", return_buffer);
+		printf("--------\n");
+		i++;
 	}
 }
