@@ -20,7 +20,6 @@ for char in buffer
 if buffer all read
 	read buffer
 
-if 
 
 
 
