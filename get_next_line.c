@@ -3,106 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/12 15:43:21 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/13 19:00:30 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
+
+int is_backslash(char *buffer)
+{
+	int i;
+
+	i = 0;
+	while (buffer[i])
+	{
+		if (buffer[i] == '\n')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void replace(char *buffer)
+{
+	int i;
+
+	i = is_backslash(buffer);
+	buffer = ft_substr(buffer, is_backslash(buffer), ft_strlen(buffer) - i);
+}
+
+int read_and_get(int fd, char **buffer)
+{
+	char	new_str[BUFFER_SIZE];
+	int		empty;
+	
+	empty = 0;
+	while (is_backslash(*buffer) == -1 && empty == 0)
+	{
+		if (read(fd, new_str, BUFFER_SIZE) == 0)
+				empty = 1;
+		else
+			*buffer = ft_strjoin(*buffer, new_str);
+		printf("Dans read and get :\n buffer = %s\n new_str == %s\n", *buffer, new_str);
+	}
+	if (empty == 1)
+		return (1);
+	else
+	{
+		return (0);
+	}
+}
+
+// la fonction is_backslash renvera la position du \n sinon renvera -1
 
 char *get_next_line(int fd)
 {
-	static t_list 	buffer = NULL;
-	char			*new_line;
-	
-	// condition pour proteger fd, buffer_size
-	if (fd == -1)
+	static char buffer[BUFFER_SIZE];
+	char 		*return_line;
+
+	if (fd == -1 || read(fd, buffer, 0) == -1)
 		return (NULL);
-	// appelle de la fonction qui va read
-	read_file(buffer, fd);
-	// appelle de la fonction qui va creer la ligne de retour
-	new_line = create_line(buffer);
-	// appelle de la fonction qui va vider la chaine buffer
-	free_list(buffer);
-	// return la ligne
-	return (new_line);
-}
-
-t_list read_file(t_list buffer, int fd)
-{
-	// creation des variables
-	int i;
-
-	while (!if_backslash(buffer))
+	if (read_and_get(fd, &buffer) == 0)
 	{
-	// allocation de la premiere liste chaine
-		buffer.content = ft_calloc(sizeof(char *), BUFFER_SIZE);
-		if (!buffer.content == NULL)
-			return (NULL);
-	// i = read(fd, buffer, BUFFER_SIZE)
-		i = read(fd, buffer.content, BUFFER_SIZE);
-	// condition de si i = 0 ou -1
-		if (i == 0)
-			return (buffer);
-		if (i == -1)
-			return (NULL);
-		buffer = buffer.next;
+		return_line = ft_substr(buffer, 0, is_backslash(buffer));
+		replace(buffer);
+		printf("La chaine buffer = %s\n La chaine return_line = %s\n", buffer, return_line);
+		return (return_line);
 	}
+	printf("Dans GNL = %s\n", buffer);
 	return (buffer);
-	// une fois /n on renvoie t_list
-	// sinon on refait un read ( peut etre boucle while )
-}
-
-char *create_line(t_list buffer)
-{
-	// creation de la chaine de caractere
-	char	*str;
-	int		i;
-	// appelle de la fonction qui compte le nbre de caractere
-	i = count_char(buffer);
-	
-	// alocation de la chaine avec calloc
-	str = ft_calloc(sizeof(char), i + 1);
-	// verif si pas nul
-	if (!str)
-		return (NULL);
-	i = 0;
-	// boucle while qui parcourt les listes | Soit on boucle  jusqu'a superieur a nbr de caractere | soit jusqu'au \n ou \0
-	while (buffer.content)
-	{
-		while (buffer.content[i])
-	}
-	// Boucle while qui parcourt la liste
-	// copie des caracteres 
-	// retourner la chaine
-}
-
-int count_char(t_list buffer)
-{
-	// creation d'un indice
-	
-	// boucle while qui parcourt les listes
-	// boucle while qui parcourt la liste
-	// indice ++
-	// retourner l'indice
-}
-
-void free_list(t_list buffer)
-{
-	// creation de variables
-
-	// boucle while qui parcourt les listes
-	// boucle while qui parcourt la liste
-	// si indice != \n ou \0
-	// appelle de fonction qui replace les caracteres
-	// break
-	// sinon free et liste = NULL
-}
-
-char *replace(t_list buffer_last_line, int i)
-{
-	// fonction qui cherche la bonne ligne et replace les elements apres \n au debut.
 }
