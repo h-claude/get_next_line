@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:09 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/13 18:14:11 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/14 17:43:56 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ char	*get_next_line(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif
