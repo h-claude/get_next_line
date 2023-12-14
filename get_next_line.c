@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/14 17:54:00 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/14 18:13:13 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ int read_and_get(int fd, char **buffer)
 	else
 		return (0);
 }
-
-// la fonction is_backslash renvera la position du \n sinon renvera -1
 
 char *get_next_line(int fd)
 {
