@@ -1,0 +1,3 @@
+seg fault quand ligne vide / existe pas
+leaks partout
+timeout quand long fichier
