@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/14 18:13:13 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/15 15:19:32 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char *get_next_line(int fd)
 	static char *buffer = NULL;
 	char 		*return_line;
 
-	if (buffer == NULL)
+	if (!buffer)
 		buffer = ft_calloc(sizeof(char), BUFFER_SIZE);
 	if (fd == -1 || read(fd, buffer, 0) == -1)
 		return (NULL);
@@ -80,7 +80,13 @@ char *get_next_line(int fd)
 		return (return_line);
 	}
 	// printf("Dans GNL = %s\n", buffer);
+	if (buffer[0] == '\0')
+		return (NULL);
 	return_line = ft_substr(buffer, 0, ft_strlen(buffer));
-	free(buffer);
+	if (buffer != NULL)
+	{
+		free(buffer);
+		buffer = NULL;	
+	}
 	return (return_line);
 }
