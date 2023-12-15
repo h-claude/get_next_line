@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/15 15:19:32 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/15 16:14:16 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int is_backslash(char *buffer)
 	i = 0;
 	while (buffer[i])
 	{
-		if (buffer[i] == '\n')
+		if ('\n' == buffer[i])
 			return (i);
 		i++;
 	}
@@ -44,6 +44,8 @@ int read_and_get(int fd, char **buffer)
 	char	*new_buffer;
 	
 	empty = 0;
+	ft_bzero(new_str, BUFFER_SIZE);
+	// printf("New str = %s\n", new_str);
 	while (is_backslash(*buffer) == -1 && empty == 0)
 	{
 		if (read(fd, new_str, BUFFER_SIZE) == 0)
@@ -54,7 +56,7 @@ int read_and_get(int fd, char **buffer)
 			free(*buffer);
 			*buffer = new_buffer;
 		}
-		// printf("Dans read and get :\n buffer = %s\n new_str == %s\n", *buffer, new_str);
+		// printf("Dans read and get :\n buffer = %s\n new_str = %s\n", *buffer, new_str);
 		ft_bzero(new_str, BUFFER_SIZE);
 	}
 	if (empty == 1)
