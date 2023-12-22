@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/22 16:17:02 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/22 21:45:25 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ char	*get_next_line(int fd)
 
 	if (fd == -1 || read(fd, buffer, 0) == -1)
 	{
-		ft_bzero(buffer, ft_strlen(buffer));	
 		free(buffer);
 		return (NULL);
 	}
