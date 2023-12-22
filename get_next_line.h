@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:09 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/21 19:30:09 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/22 16:02:08 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #  define BUFFER_SIZE 1024
 
 # endif
+
+// #define malloc(x) NULL
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
