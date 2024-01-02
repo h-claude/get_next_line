@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/02 15:27:33 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/02 16:20:10 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,28 @@ int	read_and_get(int fd, char **buffer)
 	return (empty);
 }
 
+char	*get_next_line_part2(int fd, char **buffer)
+{
+	char	*return_line;
+
+	if (read_and_get(fd, &*buffer) == 0)
+	{
+		return_line = ft_substr(*buffer, 0, is_backslash(*buffer) + 1);
+		replace(&*buffer);
+		return (return_line);
+	}
+	if (*buffer[0] == '\0')
+		return_line = NULL;
+	else
+		return_line = ft_substr(*buffer, 0, ft_strlen(*buffer));
+	free(*buffer);
+	*buffer = NULL;
+	return (return_line);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer = NULL;
-	char		*return_line;
 
 	if (fd == -1 || read(fd, buffer, 0) == -1 || BUFFER_SIZE < 0)
 	{
@@ -78,17 +96,5 @@ char	*get_next_line(int fd)
 		buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	if (read_and_get(fd, &buffer) == 0)
-	{
-		return_line = ft_substr(buffer, 0, is_backslash(buffer) + 1);
-		replace(&buffer);
-		return (return_line);
-	}
-	if (buffer[0] == '\0')
-		return_line = NULL;
-	else
-		return_line = ft_substr(buffer, 0, ft_strlen(buffer));
-	free(buffer);
-	buffer = NULL;
-	return (return_line);
+	return (get_next_line_part2(fd, &buffer));
 }

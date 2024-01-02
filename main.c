@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 19:31:18 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/02 15:23:32 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/02 16:19:53 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,34 @@
 
 int	main(void)
 {
-	int	fd;
-	char *str;
-	char *test;
+	int		fd;
+	char	*str;
+	char	*test;
 
 	fd = open("fichier1.txt", O_RDONLY);
 	str = get_next_line(fd);
 	printf("RETURN = %s\n", str);
 	free(str);
-	// str = get_next_line(fd);
-	// printf("RETURN = %s\n", str);
-	// free(str);	str = get_next_line(fd);
-	// printf("RETURN = %s\n", str);
-	// free(str);	str = get_next_line(fd);
-	// printf("RETURN = %s\n", str);
-	// free(str);	str = get_next_line(fd);
-	// printf("RETURN = %s\n", str);
-	// free(str);	str = get_next_line(fd);
-	// printf("RETURN = %s\n", str);
-	// free(str);	str = get_next_line(fd);
-	// printf("RETURN = %s\n", str);
-	// free(str);	str = get_next_line(fd);
-	// printf("RETURN = %s\n", str);
-	// free(str);
+	str = get_next_line(fd);
+	printf("RETURN = %s\n", str);
+	free(str);
+	str = get_next_line(fd);
+	printf("RETURN = %s\n", str);
+	free(str);
+	str = get_next_line(fd);
+	printf("RETURN = %s\n", str);
+	free(str);
+	str = get_next_line(fd);
+	printf("RETURN = %s\n", str);
+	free(str);
+	str = get_next_line(fd);
+	printf("RETURN = %s\n", str);
+	free(str);
+	str = get_next_line(fd);
+	printf("RETURN = %s\n", str);
+	free(str);
+	str = get_next_line(fd);
+	printf("RETURN = %s\n", str);
+	free(str);
 	close(fd);
 }
