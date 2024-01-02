@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/02 16:20:10 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/02 17:05:31 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,11 @@ char	*get_next_line(int fd)
 {
 	static char	*buffer = NULL;
 
-	if (fd == -1 || read(fd, buffer, 0) == -1 || BUFFER_SIZE < 0)
+	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 	{
 		if (buffer == NULL)
 			free(buffer);
+		buffer = NULL;
 		return (NULL);
 	}
 	if (!buffer)
