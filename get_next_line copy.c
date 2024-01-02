@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line copy.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/26 08:05:03 by hclaude          ###   ########.fr       */
+/*   Updated: 2023/12/29 20:08:49 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,33 @@ void	replace(char **buffer)
 	*buffer = new_buffer;
 }
 
-int	read_and_get(int fd, char **buffer)
+char	*read_and_get(int fd, char **buffer)
 {
 	char	new_str[BUFFER_SIZE + 1];
-	int		empty;
 	char	*new_buffer;
 
-	empty = 0;
 	ft_bzero(new_str, BUFFER_SIZE + 1);
-	while (is_backslash(*buffer) == -1 && empty == 0)
+	while (1)
 	{
 		if (read(fd, new_str, BUFFER_SIZE) == 0)
-			empty = 1;
-		else
 		{
-			new_buffer = ft_strjoin(*buffer, new_str);
+			printf("caca\n");
 			free(*buffer);
-			*buffer = new_buffer;
+			*buffer = NULL;
+			return(new_buffer);
 		}
-		ft_bzero(new_str, BUFFER_SIZE);
+		else if (is_backslash(new_str) > -1)
+		{
+			printf("Avant substr = %s\nPROUT\n", new_buffer);
+			new_buffer = ft_strjoin(new_buffer, ft_substr(new_str, 0, is_backslash(new_str)));
+			printf("new-str = %s\nNEW BUFF = %s\n", new_str, new_buffer);
+			free(*buffer);
+			*buffer = ft_substr(new_str, is_backslash(new_str), BUFFER_SIZE - is_backslash(new_str));
+			return (new_buffer);
+		}
+		new_buffer = ft_strjoin(new_buffer, new_str);
+		printf("New_buffer = %s\n", new_buffer);
 	}
-	if (empty == 1)
-		return (1);
-	else
-		return (0);
 }
 
 char	*get_next_line(int fd)
@@ -68,6 +71,7 @@ char	*get_next_line(int fd)
 	static char	*buffer = NULL;
 	char		*return_line;
 
+	printf("BUFF GNL = %s\n", buffer);
 	if (fd == -1 || read(fd, buffer, 0) == -1)
 	{
 		free(buffer);
@@ -77,17 +81,5 @@ char	*get_next_line(int fd)
 		buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	if (read_and_get(fd, &buffer) == 0)
-	{
-		return_line = ft_substr(buffer, 0, is_backslash(buffer) + 1);
-		replace(&buffer);
-		return (return_line);
-	}
-	if (buffer[0] == '\0')
-		return_line = NULL;
-	else
-		return_line = ft_substr(buffer, 0, ft_strlen(buffer));
-	free(buffer);
-	buffer = NULL;
-	return (return_line);
+	return (read_and_get(fd, &buffer));
 }
