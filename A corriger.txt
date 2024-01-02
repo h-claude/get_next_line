@@ -1,3 +1,2 @@
-quelques leaks
 timeout quand long fichier
-quelques ko
+pb test erreur 

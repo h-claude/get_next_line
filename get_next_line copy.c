@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line copy.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/29 20:08:49 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/02 14:21:33 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*read_and_get(int fd, char **buffer)
 	ft_bzero(new_str, BUFFER_SIZE + 1);
 	while (1)
 	{
-		if (read(fd, new_str, BUFFER_SIZE) == 0)
+		if (read(fd, new_str, BUFFER_SIZE) == 0 && *buffer[0] == '\0')
 		{
 			printf("caca\n");
 			free(*buffer);
@@ -55,10 +55,11 @@ char	*read_and_get(int fd, char **buffer)
 		else if (is_backslash(new_str) > -1)
 		{
 			printf("Avant substr = %s\nPROUT\n", new_buffer);
-			new_buffer = ft_strjoin(new_buffer, ft_substr(new_str, 0, is_backslash(new_str)));
+			new_buffer = ft_strjoin(new_buffer, ft_substr(new_str, 0, is_backslash(new_str) + 1));
 			printf("new-str = %s\nNEW BUFF = %s\n", new_str, new_buffer);
 			free(*buffer);
-			*buffer = ft_substr(new_str, is_backslash(new_str), BUFFER_SIZE - is_backslash(new_str));
+			*buffer = ft_substr(new_str, is_backslash(new_str) + 1, BUFFER_SIZE - is_backslash(new_str));
+			printf("buffer = %s\n", *buffer);
 			return (new_buffer);
 		}
 		new_buffer = ft_strjoin(new_buffer, new_str);
@@ -74,7 +75,8 @@ char	*get_next_line(int fd)
 	printf("BUFF GNL = %s\n", buffer);
 	if (fd == -1 || read(fd, buffer, 0) == -1)
 	{
-		free(buffer);
+		if (buffer == NULL) 
+			free(buffer);
 		return (NULL);
 	}
 	if (!buffer)

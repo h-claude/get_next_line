@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2023/12/26 08:05:03 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/02 15:27:33 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_backslash(char *buffer)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	while (buffer[i])
@@ -39,12 +39,14 @@ void	replace(char **buffer)
 
 int	read_and_get(int fd, char **buffer)
 {
-	char	new_str[BUFFER_SIZE + 1];
+	char	*new_str;
 	int		empty;
 	char	*new_buffer;
 
 	empty = 0;
-	ft_bzero(new_str, BUFFER_SIZE + 1);
+	new_str = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	if (!new_str)
+		return (1);
 	while (is_backslash(*buffer) == -1 && empty == 0)
 	{
 		if (read(fd, new_str, BUFFER_SIZE) == 0)
@@ -57,10 +59,8 @@ int	read_and_get(int fd, char **buffer)
 		}
 		ft_bzero(new_str, BUFFER_SIZE);
 	}
-	if (empty == 1)
-		return (1);
-	else
-		return (0);
+	free(new_str);
+	return (empty);
 }
 
 char	*get_next_line(int fd)
@@ -68,9 +68,10 @@ char	*get_next_line(int fd)
 	static char	*buffer = NULL;
 	char		*return_line;
 
-	if (fd == -1 || read(fd, buffer, 0) == -1)
+	if (fd == -1 || read(fd, buffer, 0) == -1 || BUFFER_SIZE < 0)
 	{
-		free(buffer);
+		if (buffer == NULL)
+			free(buffer);
 		return (NULL);
 	}
 	if (!buffer)
