@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/02 17:05:31 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/04 16:26:57 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,41 @@ void	replace(char **buffer)
 int	read_and_get(int fd, char **buffer)
 {
 	char	*new_str;
-	int		empty;
 	char	*new_buffer;
+	ssize_t	n_read;
 
-	empty = 0;
+	new_buffer = NULL;
 	new_str = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!new_str)
 		return (1);
-	while (is_backslash(*buffer) == -1 && empty == 0)
+	while (is_backslash(*buffer) == -1)
 	{
-		if (read(fd, new_str, BUFFER_SIZE) == 0)
-			empty = 1;
-		else
-		{
-			new_buffer = ft_strjoin(*buffer, new_str);
-			free(*buffer);
-			*buffer = new_buffer;
-		}
+		n_read = read(fd, new_str, BUFFER_SIZE);
+		if (n_read == -1)
+			return (free(new_str), free(new_buffer), -1);
+		else if (n_read == 0)
+			return (free(new_str), 1);
+		new_buffer = ft_strjoin(*buffer, new_str);
+		free(*buffer);
+		*buffer = new_buffer;
 		ft_bzero(new_str, BUFFER_SIZE);
 	}
-	free(new_str);
-	return (empty);
+	return (free(new_str), 0);
 }
 
 char	*get_next_line_part2(int fd, char **buffer)
 {
 	char	*return_line;
+	int		empty;
 
-	if (read_and_get(fd, &*buffer) == 0)
+	empty = read_and_get(fd, &*buffer);
+	if (empty == -1)
+	{
+		free(*buffer);
+		*buffer = NULL;
+		return (*buffer);
+	}
+	if (empty == 0)
 	{
 		return_line = ft_substr(*buffer, 0, is_backslash(*buffer) + 1);
 		replace(&*buffer);
@@ -86,13 +93,8 @@ char	*get_next_line(int fd)
 {
 	static char	*buffer = NULL;
 
-	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
-	{
-		if (buffer == NULL)
-			free(buffer);
-		buffer = NULL;
+	if (fd == -1 || read(fd, 0, 0) == -1 || BUFFER_SIZE < 0)
 		return (NULL);
-	}
 	if (!buffer)
 		buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!buffer)
