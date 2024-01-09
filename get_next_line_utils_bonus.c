@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:01 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/04 18:08:19 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/09 15:56:07 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 	tab = malloc(count * size);
 	if (!tab)
-	{
 		return (NULL);
-	}
 	ft_bzero(tab, count * size);
 	return (tab);
 }

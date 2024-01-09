@@ -6,7 +6,7 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/04 16:26:57 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/09 15:43:16 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	read_and_get(int fd, char **buffer)
 	new_buffer = NULL;
 	new_str = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!new_str)
-		return (1);
-	while (is_backslash(*buffer) == -1)
+		return (-1);
+	while (*buffer && is_backslash(*buffer) == -1)
 	{
 		n_read = read(fd, new_str, BUFFER_SIZE);
 		if (n_read == -1)
@@ -57,6 +57,8 @@ int	read_and_get(int fd, char **buffer)
 		new_buffer = ft_strjoin(*buffer, new_str);
 		free(*buffer);
 		*buffer = new_buffer;
+		if (!*buffer)
+			return (free(new_str), -1);
 		ft_bzero(new_str, BUFFER_SIZE);
 	}
 	return (free(new_str), 0);
@@ -67,7 +69,7 @@ char	*get_next_line_part2(int fd, char **buffer)
 	char	*return_line;
 	int		empty;
 
-	empty = read_and_get(fd, &*buffer);
+	empty = read_and_get(fd, buffer);
 	if (empty == -1)
 	{
 		free(*buffer);
@@ -77,10 +79,12 @@ char	*get_next_line_part2(int fd, char **buffer)
 	if (empty == 0)
 	{
 		return_line = ft_substr(*buffer, 0, is_backslash(*buffer) + 1);
-		replace(&*buffer);
+		replace(buffer);
+		if (!return_line && *buffer)
+			return (free(*buffer), *buffer = NULL, NULL);
 		return (return_line);
 	}
-	if (*buffer[0] == '\0')
+	if (!buffer || *buffer[0] == '\0')
 		return_line = NULL;
 	else
 		return_line = ft_substr(*buffer, 0, ft_strlen(*buffer));
@@ -93,7 +97,7 @@ char	*get_next_line(int fd)
 {
 	static char	*buffer = NULL;
 
-	if (fd == -1 || read(fd, 0, 0) == -1 || BUFFER_SIZE < 0)
+	if (fd == -1 || BUFFER_SIZE < 0)
 		return (NULL);
 	if (!buffer)
 		buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);

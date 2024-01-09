@@ -6,24 +6,18 @@
 /*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:09 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/04 18:07:55 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/01/09 15:43:04 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
-
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 
 # ifndef BUFFER_SIZE
-
 #  define BUFFER_SIZE 1024
-
 # endif
-
-// #define malloc(x) NULL
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);

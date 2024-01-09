@@ -1,2 +1,0 @@
-timeout quand long fichier
-pb read error
