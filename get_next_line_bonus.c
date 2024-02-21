@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/09 16:02:58 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:22:10 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	read_and_get(int fd, char **buffer)
 	new_buffer = NULL;
 	new_str = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!new_str)
-		return (1);
-	while (is_backslash(*buffer) == -1)
+		return (-1);
+	while (*buffer && is_backslash(*buffer) == -1)
 	{
 		n_read = read(fd, new_str, BUFFER_SIZE);
 		if (n_read == -1)

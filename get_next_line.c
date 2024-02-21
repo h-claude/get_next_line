@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hclaude <hclaude@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hclaude <hclaude@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:35:06 by hclaude           #+#    #+#             */
-/*   Updated: 2024/01/09 15:43:16 by hclaude          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:32:57 by hclaude          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ char	*get_next_line_part2(int fd, char **buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = NULL;
+	static char	*buffer[1024];
 
-	if (fd == -1 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE < 0 || fd >= 1024)
 		return (NULL);
-	if (!buffer)
-		buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	if (!buffer)
+	if (!buffer[fd])
+		buffer[fd] = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	if (!buffer[fd])
 		return (NULL);
-	return (get_next_line_part2(fd, &buffer));
+	return (get_next_line_part2(fd, &buffer[fd]));
 }
